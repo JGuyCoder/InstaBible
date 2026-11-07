@@ -1,0 +1,16 @@
+# Python virtual environments
+.venv/
+.venv-*/
+venv/
+env/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Test and development artifacts
+.pytest_cache/
+.coverage
+
+# Unused large model artifact
+ML/models/random_forest.joblib
