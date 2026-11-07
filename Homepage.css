@@ -26,7 +26,7 @@
     --color-bg: #0f172a;
     --color-surface: #1e293b;
     --color-text: #f7fafc;
-    --color-muted: #94a3b8;
+    --color-muted: #d6f42a;
     --color-border: #334155;
   }
 }
@@ -196,4 +196,4 @@ footer {
   .hero h1 {
     font-size: 2rem;
   }
-}   
+} 
