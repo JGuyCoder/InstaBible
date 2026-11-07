@@ -1,9 +1,19 @@
-// Inclusive
+window.scrollTo({ top: 0, behavior: 'instant' });
+
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 let rand_chapter = "";
+
+const scrollerContainer = document.getElementById("scroller-container");
+function resizeScroller() {
+    scrollerContainer.style.height = `${window.scrollHeight}px`;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+// Keep the panel sized to the current viewport if the window changes size.
+//window.addEventListener("resize", resizeScroller);
 
 // Read and parse JSON
 fetch("./data/proverbs_structure.json")
@@ -23,8 +33,18 @@ fetch("./data/proverbs_structure.json")
         fetch(url)
             .then(function (response) { return response.json(); })
             .then(function(data) {
+
                 document.getElementById("verse").innerHTML = data.text;
-                $("#scroller-container").append(`<div class="link-container"><a class="link" href="https://www.bible.com/bible/111/PRO.${rand_chapter}.NIV">- - Context - -</a></div>`);
+
+                $("#scroller-container").append(`
+                    <div class="link-container">
+                        <a class="link" href="https://www.bible.com/bible/111/PRO.${rand_chapter}.NIV">
+                            - - Context - -
+                        </a>
+                    </div>
+                `);
+
+                resizeScroller();
             })
         .catch(function (error) {
             document.getElementById("reference").innerHTML = "You are scrolling too fast!!!!!!";
@@ -37,3 +57,16 @@ fetch("./data/proverbs_structure.json")
 
 // document.getElementById("reference").innerHTML = "Provervs 3:3";
 // document.getElementById("verse").innerHTML = "This is a bible verse, it is a really good verse.";
+
+let reloadPending = false;
+
+window.addEventListener('scroll', function () {
+  const pageHeight = document.documentElement.scrollHeight;
+  const atBottom = window.innerHeight + window.scrollY >= pageHeight - 1;
+
+  // Scroll events continue firing while the page is at the bottom. Reload once.
+  if (atBottom && !reloadPending) {
+    reloadPending = true;
+    window.location.reload();
+  }
+});
