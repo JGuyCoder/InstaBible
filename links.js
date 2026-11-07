@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "page1.html";
   });
 
-  document.getElementById("Scroll").addEventListener("click", function () {
+  document.getElementById("Scroller").addEventListener("click", function () {
     window.location.href = "./scroller.html";
   });
 
