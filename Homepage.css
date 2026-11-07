@@ -12,7 +12,7 @@
   --color-bg: #f4f7fb;
   --color-surface: #ffffff;
   --color-text: #dcf83b;
-  --color-muted: #718096;
+  --color-muted: #1a202c;
   --color-accent: #04aa6d;
   --color-accent-dark: #058457;
   --color-border: #e2e8f0;
@@ -26,7 +26,7 @@
     --color-bg: #0f172a;
     --color-surface: #1e293b;
     --color-text: #f7fafc;
-    --color-muted: #d6f42a;
+    --color-muted: #94a3b8;
     --color-border: #334155;
   }
 }
@@ -196,4 +196,4 @@ footer {
   .hero h1 {
     font-size: 2rem;
   }
-} 
+}   
