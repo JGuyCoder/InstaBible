@@ -64,3 +64,8 @@ h1 {
 .home-button:hover {
     background: #555;
 }
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
