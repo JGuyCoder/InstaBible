@@ -39,7 +39,7 @@ function loadNewVerse() {
                     document.getElementById("verse").innerHTML = data.text;
 
                     $("#link").replaceWith(`
-                            <a id="link" href="https://www.bible.com/bible/111/PRO.${rand_chapter}.NIV">- - Context - -</a>
+                            <a id="link" class="bible-link" href="https://www.bible.com/bible/111/PRO.${rand_chapter}.NIV">Read Proverbs ${rand_chapter}</a>
                     `);
 
                     let rand_music = getRndInteger(1, 10);

@@ -19,14 +19,37 @@ h1 {
     font: 100px Arial Black, sans-serif;
 }
 
-#link {
-    font: 75px Arial Black, sans-serif;
-}
-
 .link-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 28px;
+}
+
+.bible-link {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    border: 2px solid var(--pearl-beige);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--pearl-beige) 12%, transparent);
+    color: var(--pearl-beige);
+    font: 600 20px Arial, sans-serif;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bible-link:hover,
+.bible-link:focus-visible {
+    background: color-mix(in srgb, var(--pearl-beige) 22%, transparent);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--pearl-beige) 30%, transparent);
+}
+
+.bible-link:focus-visible {
+    outline: 2px solid var(--pearl-beige);
+    outline-offset: 3px;
 }
 
 #scroller-container {
