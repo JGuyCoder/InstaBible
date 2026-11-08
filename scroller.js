@@ -123,10 +123,10 @@ window.addEventListener('keydown', function (event) {
 // }
 
 function disableScroll() {
-    document.body.classList.add("stop-scrolling");
+    //document.body.classList.add("stop-scrolling");
     setTimeout(() => {
         reloadPending = false;
-        document.body.classList.remove("stop-scrolling");
+        //document.body.classList.remove("stop-scrolling");
     }, 300); // 500 is good for stop scrolling
 }
 
