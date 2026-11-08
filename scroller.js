@@ -5,7 +5,7 @@ function getRndInteger(min, max) {
 }
 
 const musicPlayer = document.getElementById("music");
-musicPlayer.volume = 0.2;
+musicPlayer.volume = 0.1;
 
 const verseHistory = [];
 const maxHistoryLength = 6;
