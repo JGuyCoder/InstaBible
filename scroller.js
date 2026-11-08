@@ -31,7 +31,7 @@ async function generateSpeech(verse) {
     }
 
     try {
-    const response = await fetch("/proxy", {
+    const response = await fetch("./proxy.php", {
         method: "POST",
         headers: {
         "Content-Type": "application/json"
