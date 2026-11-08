@@ -1,4 +1,4 @@
-window.scrollTo({ top: 200, behavior: 'instant' });
+window.scrollTo({ top: 600, behavior: 'instant' });
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -13,7 +13,7 @@ let isLoadingVerse = false;
 const scrollerContainer = document.getElementById("scroller-container");
 function resizeScroller() {
     scrollerContainer.style.height = `${window.scrollHeight}px`;
-    window.scrollTo({ top: 200, behavior: 'instant' });
+    window.scrollTo({ top: 600, behavior: 'instant' });
 }
 
 // Keep the panel sized to the current viewport if the window changes size.
@@ -120,7 +120,7 @@ window.addEventListener('scroll', function () {
   // Scroll events continue firing while the page is at the bottom. Reload once.
   if (atBottom && !reloadPending) {
     reloadPending = true;
-    window.scrollTo({ top: 200, behavior: 'instant' });
+    window.scrollTo({ top: 600, behavior: 'instant' });
     disableScroll();
     loadNewVerse("forward");
     return;
@@ -131,7 +131,7 @@ window.addEventListener('scroll', function () {
 
   if (atTop && !reloadPending) {
     reloadPending = true;
-    window.scrollTo({ top: 200, behavior: 'instant' });
+    window.scrollTo({ top: 600, behavior: 'instant' });
     disableScroll();
     loadNewVerse("backward");
   }
