@@ -135,7 +135,7 @@ window.addEventListener('scroll', function () {
   const atBottom = window.innerHeight + window.scrollY >= pageHeight - 1;
 
   // Scroll events continue firing while the page is at the bottom. Reload once.
-  if (atBottom && !reloadPending) {
+  if (atBottom) {
     reloadPending = true;
     window.scrollTo({ top: 600, behavior: 'instant' });
     disableScroll();
@@ -146,7 +146,7 @@ window.addEventListener('scroll', function () {
 
   const atTop = window.scrollY <= 100;
 
-  if (atTop && !reloadPending) {
+  if (atTop) {
     reloadPending = true;
     window.scrollTo({ top: 600, behavior: 'instant' });
     disableScroll();
