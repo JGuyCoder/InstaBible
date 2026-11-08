@@ -69,6 +69,14 @@ loadNewVerse();
 
 let reloadPending = false;
 
+window.addEventListener('keydown', function (event) {
+  if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+      reloadPending = true;
+      loadNewVerse();
+      disableScroll();
+  }
+});
+
 function disableScroll() {
     //document.body.classList.add("stop-scrolling");
     setTimeout(() => {
