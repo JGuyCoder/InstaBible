@@ -42,7 +42,15 @@ async function generateSpeech(verse) {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to generate speech.");
+        const contentType = response.headers.get("content-type") || "";
+        let details = "";
+        if (contentType.includes("application/json")) {
+            const errorData = await response.json();
+            details = [errorData.error, errorData.details].filter(Boolean).join(": ");
+        } else {
+            details = await response.text();
+        }
+        throw new Error(details || `Speech request failed (${response.status}).`);
     }
 
     const audioBlob = await response.blob();
@@ -52,8 +60,7 @@ async function generateSpeech(verse) {
     await player.play();
 
     } catch (error) {
-    console.error(error);
-    console.log("Error generating speech.");
+    console.error("Error generating speech:", error);
     }
 }
 
