@@ -67,9 +67,6 @@ window.addEventListener('scroll', function () {
   // Scroll events continue firing while the page is at the bottom. Reload once.
   if (atBottom && !reloadPending) {
     reloadPending = true;
-    loadNewVerse();
-  }
-  if (reloadPending && !atBottom) {
-    reloadPending = false;
+    window.location.reload();
   }
 });
