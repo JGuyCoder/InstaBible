@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("TestYourself").addEventListener("click", function () {
-    window.location.href = "page1.html";
+    window.location.href = "./quiz/quiz.html";
   });
 
   document.getElementById("Scroller").addEventListener("click", function () {
