@@ -14,3 +14,11 @@ __pycache__/
 
 # Unused large model artifact
 ML/models/random_forest.joblib
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Python package build artifacts
+*.egg-info/
