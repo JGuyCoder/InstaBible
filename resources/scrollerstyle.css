@@ -1,0 +1,71 @@
+:root {
+    --blue-slate: #666a86ff;
+    --slate-grey: #788aa3ff;
+    --muted-teal: #92b6b1ff;
+    --celadon: #b2c9abff;
+    --pearl-beige: #e8ddb5ff;
+}
+
+#background {
+    background-color: var(--blue-slate);
+}
+
+h1 {
+    text-align: center;
+}
+
+#verse {
+    text-align: center;
+    font: 100px Arial Black, sans-serif;
+}
+
+#link {
+    font: 75px Arial Black, sans-serif;
+}
+
+.link-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#scroller-container {
+    background: #fff;
+    max-width: 850px;
+    margin: 40px auto 24px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 40px 32px 320px 32px;
+}
+
+#scroller-header {
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    gap: 16px;
+}
+
+.logo {
+    display: block;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.home-button {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 6px;
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+}
+
+.home-button:hover {
+    background: #555;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
