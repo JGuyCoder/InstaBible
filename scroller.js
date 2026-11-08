@@ -81,6 +81,8 @@ function showVerse(entry) {
     document.getElementById("link").href = `https://www.bible.com/bible/111/PRO.${entry.chapter}.NIV`;
     document.getElementById("link").textContent = "Read Context";
 
+    generateSpeech(entry.text);
+
     const randMusic = getRndInteger(1, 10);
     if (currentAudio) {
         currentAudio.pause();
