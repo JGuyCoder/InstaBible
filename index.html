@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>InstaBible</title>
+
   <link rel="stylesheet" href="resources/homepage.css">
-  <script src="links.js"></script>
+  <link rel="stylesheet" href="resources/bobble.css">
+
+  <script src="links.js" defer></script>
+  <script src="bobble.js" defer></script>
 </head>
 <body>
   <div class="header">
@@ -17,5 +21,48 @@
   </div>
   <h2>And when he had said these things, as they were looking on, he was slifted up, and a cloud took him out of their sight. And while they were gazing into heaven as he went, behold, two men stood by them in white robes, and said, “Men of Galilee, why do you stand looking into heaven? This Jesus, who was taken up from you into heaven, will come in the same way as you saw him go into heaven.”</h2>
   <h3>Acts 1: 9-11</h3>
+  <!-- Bobble floating chat interface -->
+<div id="bobble-widget">
+  <section id="bobble-panel" class="bobble-panel" hidden>
+    <header class="bobble-header">
+      <div>
+        <h2>Bobble</h2>
+        <span>Your InstaBible assistant</span>
+      </div>
+      <div class="bobble-header-actions">
+        <button type="button" id="bobble-reset" aria-label="Reset conversation">↻</button>
+        <button type="button" id="bobble-close" aria-label="Close chat">×</button>
+      </div>
+    </header>
+
+    <div id="bobble-messages" class="bobble-messages" aria-live="polite">
+      <div class="bobble-message assistant">
+        Hey! I'm Bobble. What would you like to explore?
+      </div>
+    </div>
+
+    <form id="bobble-form" class="bobble-input-area">
+      <input
+        id="bobble-input"
+        type="text"
+        placeholder="Ask Bobble something..."
+        autocomplete="off"
+        aria-label="Message Bobble"
+        required
+      >
+      <button type="submit" id="bobble-send">Send</button>
+    </form>
+  </section>
+
+  <button
+    type="button"
+    id="bobble-toggle"
+    class="bobble-toggle"
+    aria-label="Open Bobble chat"
+    aria-expanded="false"
+  >
+    Chat with Bobble
+  </button>
+</div>
 </body>
 </html>
