@@ -42,6 +42,7 @@ function loadNewVerse() {
                     `);
 
                     let rand_music = getRndInteger(1, 10);
+                    document.querySelectorAll('audio').forEach(el => el.pause());
                     const audio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${rand_music}.mp3`);
                     audio.play(); // Starts playback immediately
 
