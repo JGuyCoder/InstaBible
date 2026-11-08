@@ -1,60 +1,137 @@
-window.scrollTo({ top: 0, behavior: 'instant' });
+window.scrollTo({ top: 1200, behavior: 'instant' });
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-let rand_chapter = "";
+let currentAudio = null;
+const verseHistory = [];
+const maxHistoryLength = 6;
+let historyIndex = -1;
+let isLoadingVerse = false;
 
 const scrollerContainer = document.getElementById("scroller-container");
 function resizeScroller() {
-    scrollerContainer.style.height = `${window.scrollHeight}px`;
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    scrollerContainer.style.height = "auto";
+    const contentHeight = scrollerContainer.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    if (viewportHeight > contentHeight) {
+        scrollerContainer.style.height = `${viewportHeight}px`;
+    }
+    window.scrollTo({ top: 1200, behavior: 'instant' });
 }
 
-// Keep the panel sized to the current viewport if the window changes size.
-//window.addEventListener("resize", resizeScroller);
+async function generateSpeech(verse) {
+    const text = verse;
+    const player = document.getElementById("audioPlayer");
 
-// Read and parse JSON
-function loadNewVerse() {
-    fetch("./data/proverbs_structure.json")
-        .then(function (proverbsData) { return proverbsData.json(); })
-        .then(function(data) {
-            console.log("Number of chapters:", data.chapters.length);
-            console.log("Verses per chapter:", data.chapters);
+    if (!text.trim()) {
+    console.log("no text.");
+    return;
+    }
 
-            // Randomize verse
-            let rand_chapter = getRndInteger(1, data.chapters.length);
-            let rand_verse = getRndInteger(1, data.chapters[rand_chapter-1]);
-            let url = "https://bible-api.com/proverbs%20" +  rand_chapter + ":" + rand_verse;
-            document.getElementById("reference").innerHTML = "Provervs " + rand_chapter + ":" + rand_verse;
-            
-            // Fetch verse from bible-api
-            console.log(url);
-            fetch(url)
-                .then(function (response) { return response.json(); })
-                .then(function(data) {
+    try {
+    const response = await fetch("./proxy.php", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text })
+    });
 
-                    document.getElementById("verse").innerHTML = data.text;
+    if (!response.ok) {
+        const contentType = response.headers.get("content-type") || "";
+        let details = "";
+        if (contentType.includes("application/json")) {
+            const errorData = await response.json();
+            details = [errorData.error, errorData.details].filter(Boolean).join(": ");
+        } else {
+            details = await response.text();
+        }
+        throw new Error(details || `Speech request failed (${response.status}).`);
+    }
 
-                    $("#link").replaceWith(`
-                            <a id="link" href="https://www.bible.com/bible/111/PRO.${rand_chapter}.NIV">- - Context - -</a>
-                    `);
+    const audioBlob = await response.blob();
+    const audioURL = URL.createObjectURL(audioBlob);
 
-                    let rand_music = getRndInteger(1, 10);
-                    const audio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/resources/music/${rand_music}`);
-                    audio.play(); // Starts playback immediately
+    player.src = audioURL;
+    await player.play();
 
-                    resizeScroller();
-                })
-            .catch(function (error) {
-                document.getElementById("reference").innerHTML = "You are scrolling too fast!!!!!!";
-                console.log(error);
+    } catch (error) {
+    console.error("Error generating speech:", error);
+    }
+}
+
+async function fetchVerse(chapter, verse) {
+    const url = `https://bible-api.com/proverbs%20${chapter}:${verse}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Verse request failed: ${response.status}`);
+    }
+    return response.json();
+}
+
+async function getRandomVerse() {
+    const response = await fetch("./data/proverbs_structure.json");
+    if (!response.ok) {
+        throw new Error(`Chapter data request failed: ${response.status}`);
+    }
+    const data = await response.json();
+    const chapter = getRndInteger(1, data.chapters.length);
+    const verse = getRndInteger(1, data.chapters[chapter - 1]);
+    return { chapter, verse };
+}
+
+function showVerse(entry) {
+    document.getElementById("reference").textContent = entry.reference;
+    document.getElementById("verse").textContent = entry.text;
+    document.getElementById("link").href = `https://www.bible.com/bible/111/PRO.${entry.chapter}.NIV`;
+    document.getElementById("link").textContent = "Read Context";
+
+    generateSpeech(entry.text);
+
+    const randMusic = getRndInteger(1, 10);
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+    currentAudio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${randMusic}.mp3`);
+    currentAudio.play();
+    resizeScroller();
+}
+
+async function loadNewVerse(direction = "forward") {
+    if (isLoadingVerse) return;
+    isLoadingVerse = true;
+    try {
+        if (direction === "backward") {
+            if (historyIndex <= 0) return;
+            historyIndex--;
+        } else if (historyIndex < verseHistory.length - 1) {
+            historyIndex++;
+        } else {
+            document.getElementById("verse").textContent = "Verse";
+
+            const reference = await getRandomVerse();
+            const data = await fetchVerse(reference.chapter, reference.verse);
+            verseHistory.push({
+                ...reference,
+                reference: `Proverbs ${reference.chapter}:${reference.verse}`,
+                text: data.text
             });
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+            if (verseHistory.length > maxHistoryLength) {
+                verseHistory.shift();
+            }
+            historyIndex = verseHistory.length - 1;
+        }
+
+        showVerse(verseHistory[historyIndex]);
+    } catch (error) {
+        document.getElementById("reference").textContent = "Unable to load a verse. Please try again.";
+        console.log(error);
+    } finally {
+        isLoadingVerse = false;
+    }
 }
 
 // document.getElementById("reference").innerHTML = "Provervs 3:3";
@@ -64,12 +141,22 @@ loadNewVerse();
 
 let reloadPending = false;
 
+window.addEventListener('keydown', function (event) {
+  if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+    event.preventDefault();
+    loadNewVerse("forward");
+  } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+    event.preventDefault();
+    loadNewVerse("backward");
+  }
+});
+
 function disableScroll() {
-    //document.body.classList.add("stop-scrolling");
+    document.body.classList.add("stop-scrolling");
     setTimeout(() => {
         reloadPending = false;
-        //document.body.classList.remove("stop-scrolling");
-    }, 300); // 500 is good for stop scrolling
+        document.body.classList.remove("stop-scrolling");
+    }, 500); // 500 is good for stop scrolling
 }
 
 window.addEventListener('scroll', function () {
@@ -77,12 +164,22 @@ window.addEventListener('scroll', function () {
   const atBottom = window.innerHeight + window.scrollY >= pageHeight - 1;
 
   // Scroll events continue firing while the page is at the bottom. Reload once.
-  if (atBottom && !reloadPending) {
+  if (atBottom) {
     reloadPending = true;
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 1200, behavior: 'instant' });
     disableScroll();
-    loadNewVerse();
+    loadNewVerse("forward");
+    return;
     //window.location.reload();
+  }
+
+  const atTop = window.scrollY <= 100;
+
+  if (atTop) {
+    reloadPending = true;
+    window.scrollTo({ top: 1200, behavior: 'instant' });
+    disableScroll();
+    loadNewVerse("backward");
   }
 });
 
