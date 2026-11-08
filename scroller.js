@@ -1,16 +1,16 @@
-window.scrollTo({ top: 1200, behavior: 'instant' });
-
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-let currentAudio = null;
-const verseHistory = [];
+let musicPlayer;
+let verseHistory;
 const maxHistoryLength = 6;
-let historyIndex = -1;
-let isLoadingVerse = false;
+let historyIndex;
+let isLoadingVerse;
+let scrollerContainer;
+let reloadPending;
+let scrollerStarted = false;
 
-const scrollerContainer = document.getElementById("scroller-container");
 function resizeScroller() {
     scrollerContainer.style.height = "auto";
     const contentHeight = scrollerContainer.scrollHeight;
@@ -91,12 +91,11 @@ function showVerse(entry) {
     generateSpeech(entry.text);
 
     const randMusic = getRndInteger(1, 10);
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-    }
-    currentAudio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${randMusic}.mp3`);
-    currentAudio.play();
+    musicPlayer.pause();
+    musicPlayer.currentTime = 0;
+    musicPlayer.src = `http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${randMusic}.mp3`;
+    musicPlayer.play();
+    
     resizeScroller();
 }
 
@@ -137,11 +136,40 @@ async function loadNewVerse(direction = "forward") {
 // document.getElementById("reference").innerHTML = "Provervs 3:3";
 // document.getElementById("verse").innerHTML = "This is a bible verse, it is a really good verse.";
 
-loadNewVerse();
+function initializeScroller() {
+  if (scrollerStarted) return;
+  scrollerStarted = true;
 
-let reloadPending = false;
+  document.body.innerHTML = `
+    <audio id="music" controls loop></audio>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div id="scroller-container">
+      <div id="scroller-header">
+        <a class="home-button" href="index.html">Back</a>
+        <img class="logo" src="https://img.icons8.com/?size=100&id=4xttFVmp97nX&format=png&color=000000" alt="ITWS logo">
+      </div>
+      <h1 id="reference"></h1>
+      <p id="verse"></p>
+      <div class="link-container">
+        <a id="link" class="bible-link" href="https://www.bible.com/bible/111/PRO.1.NIV">Read the full chapter</a>
+      </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <audio id="audioPlayer" controls></audio>
+  `;
 
-window.addEventListener('keydown', function (event) {
+  musicPlayer = document.getElementById("music");
+  musicPlayer.volume = 0.1;
+  verseHistory = [];
+  historyIndex = -1;
+  isLoadingVerse = false;
+  scrollerContainer = document.getElementById("scroller-container");
+  reloadPending = false;
+
+  window.scrollTo({ top: 1200, behavior: 'instant' });
+  loadNewVerse();
+
+  window.addEventListener('keydown', function (event) {
   if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
     event.preventDefault();
     loadNewVerse("forward");
@@ -149,7 +177,7 @@ window.addEventListener('keydown', function (event) {
     event.preventDefault();
     loadNewVerse("backward");
   }
-});
+  });
 
 function disableScroll() {
     document.body.classList.add("stop-scrolling");
@@ -159,7 +187,7 @@ function disableScroll() {
     }, 500); // 500 is good for stop scrolling
 }
 
-window.addEventListener('scroll', function () {
+  window.addEventListener('scroll', function () {
   const pageHeight = document.documentElement.scrollHeight;
   const atBottom = window.innerHeight + window.scrollY >= pageHeight - 1;
 
@@ -181,7 +209,8 @@ window.addEventListener('scroll', function () {
     disableScroll();
     loadNewVerse("backward");
   }
-});
+  });
+}
 
 
 
