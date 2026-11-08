@@ -1,4 +1,4 @@
-window.scrollTo({ top: 600, behavior: 'instant' });
+window.scrollTo({ top: 1200, behavior: 'instant' });
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -12,8 +12,14 @@ let isLoadingVerse = false;
 
 const scrollerContainer = document.getElementById("scroller-container");
 function resizeScroller() {
-    scrollerContainer.style.height = `${window.scrollHeight}px`;
-    window.scrollTo({ top: 600, behavior: 'instant' });
+    scrollerContainer.style.height = "auto";
+    const contentHeight = scrollerContainer.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    console.log(contentHeight, viewportHeight);
+    if (viewportHeight > contentHeight) {
+        scrollerContainer.style.height = `${viewportHeight}px`;
+    }
+    window.scrollTo({ top: 1200, behavior: 'instant' });
 }
 
 // Keep the panel sized to the current viewport if the window changes size.
@@ -43,7 +49,7 @@ function showVerse(entry) {
     document.getElementById("reference").textContent = entry.reference;
     document.getElementById("verse").textContent = entry.text;
     document.getElementById("link").href = `https://www.bible.com/bible/111/PRO.${entry.chapter}.NIV`;
-    document.getElementById("link").textContent = `Read Proverbs ${entry.chapter}`;
+    document.getElementById("link").textContent = "Read Context";
 
     const randMusic = getRndInteger(1, 10);
     if (currentAudio) {
@@ -127,7 +133,7 @@ function disableScroll() {
     setTimeout(() => {
         reloadPending = false;
         document.body.classList.remove("stop-scrolling");
-    }, 300); // 500 is good for stop scrolling
+    }, 500); // 500 is good for stop scrolling
 }
 
 window.addEventListener('scroll', function () {
@@ -137,7 +143,7 @@ window.addEventListener('scroll', function () {
   // Scroll events continue firing while the page is at the bottom. Reload once.
   if (atBottom) {
     reloadPending = true;
-    window.scrollTo({ top: 600, behavior: 'instant' });
+    window.scrollTo({ top: 1200, behavior: 'instant' });
     disableScroll();
     loadNewVerse("forward");
     return;
@@ -148,7 +154,7 @@ window.addEventListener('scroll', function () {
 
   if (atTop) {
     reloadPending = true;
-    window.scrollTo({ top: 600, behavior: 'instant' });
+    window.scrollTo({ top: 1200, behavior: 'instant' });
     disableScroll();
     loadNewVerse("backward");
   }
