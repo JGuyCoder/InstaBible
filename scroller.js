@@ -4,7 +4,9 @@ function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-let currentAudio = null;
+const musicPlayer = document.getElementById("music");
+musicPlayer.volume = 0.2;
+
 const verseHistory = [];
 const maxHistoryLength = 6;
 let historyIndex = -1;
@@ -81,15 +83,14 @@ function showVerse(entry) {
     document.getElementById("link").href = `https://www.bible.com/bible/111/PRO.${entry.chapter}.NIV`;
     document.getElementById("link").textContent = "Read Context";
 
-    generateSpeech(entry.text);
+    //generateSpeech(entry.text);
 
     const randMusic = getRndInteger(1, 10);
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-    }
-    currentAudio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${randMusic}.mp3`);
-    currentAudio.play();
+    musicPlayer.pause();
+    musicPlayer.currentTime = 0;
+    musicPlayer.src = `http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${randMusic}.mp3`;
+    musicPlayer.play();
+    
     resizeScroller();
 }
 
