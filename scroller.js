@@ -42,7 +42,7 @@ function loadNewVerse() {
                     `);
 
                     let rand_music = getRndInteger(1, 10);
-                    const audio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${rand_music}`);
+                    const audio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${rand_music}.mp3`);
                     audio.play(); // Starts playback immediately
 
                     resizeScroller();
