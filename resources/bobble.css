@@ -1,0 +1,157 @@
+/* Bobble floating chat widget */
+#bobble-widget {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  font-family: inherit;
+}
+
+/* Chat panel */
+#bobble-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(380px, calc(100vw - 32px));
+  height: 520px;
+  max-height: calc(100vh - 110px);
+  margin-bottom: 14px;
+  overflow: hidden;
+  background: #1e293b;
+  border: 1px solid #d6f42a;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  color: #f8fafc;
+}
+
+/* Ensure hidden panel stays hidden */
+#bobble-panel[hidden] {
+  display: none !important;
+}
+
+/* Header */
+#bobble-widget .bobble-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #0f172a;
+  border-bottom: 1px solid #334155;
+}
+
+#bobble-widget .bobble-header h2 {
+  margin: 0;
+  text-align: left;
+  font-size: 1.3rem;
+  color: #d6f42a;
+}
+
+#bobble-widget .bobble-header span {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+#bobble-widget .bobble-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Override global homepage button styles */
+#bobble-widget button {
+  min-width: 0;
+  min-height: 0;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #334155;
+  color: white;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+#bobble-widget button:hover {
+  filter: brightness(1.2);
+}
+
+/* Message area */
+#bobble-widget .bobble-messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+#bobble-widget .bobble-message {
+  max-width: 85%;
+  padding: 10px 13px;
+  border-radius: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  font-size: 0.95rem;
+}
+
+#bobble-widget .bobble-message.assistant {
+  align-self: flex-start;
+  background: #334155;
+  color: #f8fafc;
+}
+
+#bobble-widget .bobble-message.user {
+  align-self: flex-end;
+  background: #d6f42a;
+  color: #0f172a;
+}
+
+/* Input area */
+#bobble-widget .bobble-input-area {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: #0f172a;
+  border-top: 1px solid #334155;
+}
+
+#bobble-widget .bobble-input-area input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  outline: none;
+  background: #1e293b;
+  color: white;
+  font-size: 0.95rem;
+}
+
+#bobble-widget .bobble-input-area input:focus {
+  border-color: #d6f42a;
+}
+
+#bobble-widget #bobble-send {
+  background: #d6f42a;
+  color: #0f172a;
+  font-weight: bold;
+}
+
+/* Floating toggle */
+#bobble-widget .bobble-toggle {
+  padding: 14px 20px;
+  border-radius: 30px;
+  background: #d6f42a;
+  color: #0f172a;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  #bobble-widget {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  #bobble-panel {
+    height: min(520px, calc(100vh - 100px));
+  }
+}
