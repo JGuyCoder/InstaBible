@@ -65,7 +65,7 @@ function disableScroll() {
     setTimeout(() => {
         reloadPending = false;
         //document.body.classList.remove("stop-scrolling");
-    }, 100); // 500 is good for stop scrolling
+    }, 300); // 500 is good for stop scrolling
 }
 
 window.addEventListener('scroll', function () {
