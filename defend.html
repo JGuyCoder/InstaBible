@@ -34,6 +34,7 @@
       justify-content: center;
       box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.6);
       border: 1px solid #1a1a2a;
+      position: relative;
     }
 
     h1 {
@@ -45,6 +46,25 @@
       text-align: center;
       color: #8b0000;
       text-shadow: 0 0 12px rgba(139, 0, 0, 0.5);
+    }
+
+    .home-link {
+      position: absolute;
+      top: calc(1rem + env(safe-area-inset-top));
+      left: 1rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      color: #555;
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+      border: 1px solid #1e1e30;
+      border-radius: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .home-link:active {
+      color: #8b0000;
+      border-color: #8b0000;
     }
 
     #question {
@@ -68,21 +88,22 @@
       display: block;
       text-align: center;
       margin-bottom: 0.75rem;
-      padding: 0.5rem;
-      font-size: 0.85rem;
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      font-weight: 600;
       letter-spacing: 0.05em;
-      color: #555;
+      color: #c9a84c;
       text-decoration: none;
-      border: 1px solid #1e1e30;
+      border: 2px solid #c9a84c;
       border-radius: 4px;
-      background: transparent;
-      transition: color 0.2s, border-color 0.2s;
+      background: rgba(201, 168, 76, 0.08);
+      transition: background 0.2s, box-shadow 0.2s;
     }
 
-.bible-link:active {
-  color: #8b0000;
-  border-color: #8b0000;
-}   
+    .bible-link:active {
+      background: rgba(201, 168, 76, 0.2);
+      box-shadow: 0 0 10px rgba(201, 168, 76, 0.3);
+    }
 
     .input-row {
       display: flex;
@@ -191,9 +212,10 @@
 </head>
 <body>
   <div class="card">
+    <a href="index.html" class="home-link">Back</a>
     <h1>DEFEND THE FAITH:</h1>
     <div id="question">Loading…</div>
-    <a href="YOUR_BIBLE_APP_URL" target="_blank" class="bible-link">Prove him wrong</a>
+    <a href="hhtps://www.bible.com/bible/111" target="_blank" class="bible-link">Prove him wrong</a>
     <div class="input-row">
       <div class="input-group">
         <label>Book</label>
