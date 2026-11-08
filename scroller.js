@@ -15,7 +15,6 @@ function resizeScroller() {
     scrollerContainer.style.height = "auto";
     const contentHeight = scrollerContainer.scrollHeight;
     const viewportHeight = window.innerHeight;
-    console.log(contentHeight, viewportHeight);
     if (viewportHeight > contentHeight) {
         scrollerContainer.style.height = `${viewportHeight}px`;
     }
@@ -64,7 +63,7 @@ function showVerse(entry) {
 async function loadNewVerse(direction = "forward") {
     if (isLoadingVerse) return;
     isLoadingVerse = true;
-
+    document.getElementById("verse").textContent = "Verse";
     try {
         if (direction === "backward") {
             if (historyIndex <= 0) return;
@@ -72,6 +71,7 @@ async function loadNewVerse(direction = "forward") {
         } else if (historyIndex < verseHistory.length - 1) {
             historyIndex++;
         } else {
+
             const reference = await getRandomVerse();
             const data = await fetchVerse(reference.chapter, reference.verse);
             verseHistory.push({
