@@ -21,8 +21,39 @@ function resizeScroller() {
     window.scrollTo({ top: 1200, behavior: 'instant' });
 }
 
-// Keep the panel sized to the current viewport if the window changes size.
-//window.addEventListener("resize", resizeScroller);
+async function generateSpeech(verse) {
+    const text = verse;
+    const player = document.getElementById("audioPlayer");
+
+    if (!text.trim()) {
+    console.log("no text.");
+    return;
+    }
+
+    try {
+    const response = await fetch("/proxy", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text })
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to generate speech.");
+    }
+
+    const audioBlob = await response.blob();
+    const audioURL = URL.createObjectURL(audioBlob);
+
+    player.src = audioURL;
+    await player.play();
+
+    } catch (error) {
+    console.error(error);
+    console.log("Error generating speech.");
+    }
+}
 
 async function fetchVerse(chapter, verse) {
     const url = `https://bible-api.com/proverbs%20${chapter}:${verse}`;
@@ -110,23 +141,6 @@ window.addEventListener('keydown', function (event) {
     loadNewVerse("backward");
   }
 });
-
-// W guy on stack overflow
-// call this to Disable
-// function disableScroll() {
-//   window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-//   window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-//   window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-//   window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-// }
-
-// // call this to Enable
-// function enableScroll() {
-//   window.removeEventListener('DOMMouseScroll', preventDefault, false);
-//   window.removeEventListener(wheelEvent, preventDefault, wheelOpt); 
-//   window.removeEventListener('touchmove', preventDefault, wheelOpt);
-//   window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-// }
 
 function disableScroll() {
     document.body.classList.add("stop-scrolling");
