@@ -8,6 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.getElementById("DefendTheFaith!").addEventListener("click", function () {
-    window.location.href = "page3.html";
+    window.location.href = "./defend.html";
   });
 });
