@@ -7,6 +7,38 @@
     background-color: var(--blue-slate);
 }
 
+.start-scroller {
+    display: block;
+    margin: 40vh auto 0;
+    padding: 20px 40px;
+    border: 0;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--blue-slate);
+    cursor: pointer;
+    font: 700 100px Arial, sans-serif;
+}
+
+.home-button-start-container {
+    margin-top: 75px;
+    margin-left: 50px;
+}
+
+.home-button-start {
+    padding: 20px 40px;
+    border: 0;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--blue-slate);
+    cursor: pointer;
+    font: 700 50px Arial, sans-serif;
+}
+
+.start-scroller:hover,
+.start-scroller:focus-visible {
+    background: #e2e8f0;
+}
+
 h1 {
     text-align: center;
 }
