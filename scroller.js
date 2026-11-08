@@ -5,6 +5,7 @@ function getRndInteger(min, max) {
 }
 
 let rand_chapter = "";
+let currentAudio = null;
 
 const scrollerContainer = document.getElementById("scroller-container");
 function resizeScroller() {
@@ -41,6 +42,14 @@ function loadNewVerse() {
                             <a id="link" href="https://www.bible.com/bible/111/PRO.${rand_chapter}.NIV">- - Context - -</a>
                     `);
 
+                    let rand_music = getRndInteger(1, 10);
+                    if (currentAudio) {
+                        currentAudio.pause();
+                        currentAudio.currentTime = 0;
+                    }
+                    currentAudio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${rand_music}.mp3`);
+                    currentAudio.play(); // Starts playback immediately
+
                     resizeScroller();
                 })
             .catch(function (error) {
@@ -60,6 +69,22 @@ loadNewVerse();
 
 let reloadPending = false;
 
+window.addEventListener('keydown', function (event) {
+  if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+      reloadPending = true;
+      loadNewVerse();
+      disableScroll();
+  }
+});
+
+function disableScroll() {
+    //document.body.classList.add("stop-scrolling");
+    setTimeout(() => {
+        reloadPending = false;
+        //document.body.classList.remove("stop-scrolling");
+    }, 300); // 500 is good for stop scrolling
+}
+
 window.addEventListener('scroll', function () {
   const pageHeight = document.documentElement.scrollHeight;
   const atBottom = window.innerHeight + window.scrollY >= pageHeight - 1;
@@ -67,6 +92,12 @@ window.addEventListener('scroll', function () {
   // Scroll events continue firing while the page is at the bottom. Reload once.
   if (atBottom && !reloadPending) {
     reloadPending = true;
-    window.location.reload();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    disableScroll();
+    loadNewVerse();
+    //window.location.reload();
   }
 });
+
+
+
