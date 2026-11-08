@@ -41,6 +41,10 @@ function loadNewVerse() {
                             <a id="link" href="https://www.bible.com/bible/111/PRO.${rand_chapter}.NIV">- - Context - -</a>
                     `);
 
+                    let rand_music = getRndInteger(1, 10);
+                    const audio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/resources/music/${rand_music}`);
+                    audio.play(); // Starts playback immediately
+
                     resizeScroller();
                 })
             .catch(function (error) {
@@ -81,3 +85,6 @@ window.addEventListener('scroll', function () {
     //window.location.reload();
   }
 });
+
+
+
