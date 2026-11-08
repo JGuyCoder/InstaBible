@@ -5,6 +5,7 @@ function getRndInteger(min, max) {
 }
 
 let rand_chapter = "";
+let currentAudio = null;
 
 const scrollerContainer = document.getElementById("scroller-container");
 function resizeScroller() {
@@ -42,9 +43,12 @@ function loadNewVerse() {
                     `);
 
                     let rand_music = getRndInteger(1, 10);
-                    document.querySelectorAll('audio').forEach(el => el.pause());
-                    const audio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${rand_music}.mp3`);
-                    audio.play(); // Starts playback immediately
+                    if (currentAudio) {
+                        currentAudio.pause();
+                        currentAudio.currentTime = 0;
+                    }
+                    currentAudio = new Audio(`http://pankrjrpi.eastus.cloudapp.azure.com/instabible/music/${rand_music}.mp3`);
+                    currentAudio.play(); // Starts playback immediately
 
                     resizeScroller();
                 })
